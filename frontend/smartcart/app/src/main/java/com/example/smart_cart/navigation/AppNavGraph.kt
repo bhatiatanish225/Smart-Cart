@@ -1,6 +1,6 @@
 package com.example.smart_cart.navigation
 
-import com.example.smart_cart.ui.profile.ProfileScreen
+
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
@@ -52,7 +52,7 @@ fun AppNavGraph(
             )
         }
         composable("profile") {
-            ProfileScreen()
+
         }
     }
 }
