@@ -64,7 +64,7 @@ import com.example.smart_cart.data.repository.CategoryRepository
 
 
 @Composable
-fun MainScreen() {
+fun MainScreen(onLogoutClick: () -> Unit) {
     Scaffold(
         topBar = {
             Column {
