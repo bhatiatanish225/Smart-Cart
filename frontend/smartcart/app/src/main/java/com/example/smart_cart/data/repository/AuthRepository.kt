@@ -8,7 +8,7 @@ import kotlinx.coroutines.tasks.await
 
 class AuthRepository(
     private val firebaseAuth: FirebaseAuth,
-    private val firestore: FirebaseFirestore // Firestore instance
+    private val firestore: FirebaseFirestore
 ) {
 
     // Register a user
@@ -60,8 +60,4 @@ class AuthRepository(
     fun logout() {
         firebaseAuth.signOut()
     }
-
-
-
-    }
-
+}

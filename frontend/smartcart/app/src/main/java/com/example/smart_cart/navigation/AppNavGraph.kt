@@ -1,7 +1,5 @@
 package com.example.smart_cart.navigation
 
-
-
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -10,8 +8,10 @@ import androidx.navigation.compose.rememberNavController
 import com.example.smart_cart.ui.home.HomeScreen
 import com.example.smart_cart.ui.login.LoginScreen
 import com.example.smart_cart.ui.login.LoginViewModel
+import com.example.smart_cart.ui.profile.MainScreen
 import com.example.smart_cart.ui.signup.SignupScreen
 import com.example.smart_cart.ui.signup.RegisterViewModel
+import com.example.smart_cart.ui.splash.SplashScreen
 
 @Composable
 fun AppNavGraph(
@@ -36,23 +36,49 @@ fun AppNavGraph(
             LoginScreen(
                 viewModel = loginViewModel,
                 onLoginSuccess = { token ->
-                    // Navigate to Home on successful login
-                    navController.navigate("home") { popUpTo("login") { inclusive = true } }
+                    // Navigate to Splash Screen first
+                    navController.navigate("splash")
                 },
                 onRegisterClick = { navController.navigate("signup") },
-                onForgotPasswordClick = { /* Handle forgot password */ }
+                onForgotPasswordClick = {
+                    // Navigate to Forgot Password screen if implemented
+                    navController.navigate("forgot_password")
+                }
             )
         }
 
         // Signup Screen
         composable("signup") {
             SignupScreen(
-                viewModel = registerViewModel, // ViewModel is directly passed to handle logic
+                viewModel = registerViewModel,
                 onAlreadyHaveAccountClick = { navController.navigate("login") }
             )
         }
-        composable("profile") {
 
+        // Profile Screen
+        composable("profile") {
+            MainScreen(
+                onLogoutClick = {
+                    // Navigate back to login on logout
+                    navController.navigate("login") {
+                        popUpTo("home") { inclusive = true }
+                    }
+                }
+            )
+        }
+
+        // Splash Screen
+        composable("splash") {
+            SplashScreen(
+                navController = navController,
+                context = TODO()
+            )
+        }
+
+        // Placeholder for Forgot Password Screen (if needed)
+        composable("forgot_password") {
+            // Add your ForgotPasswordScreen here
+            // ForgotPasswordScreen()
         }
     }
 }

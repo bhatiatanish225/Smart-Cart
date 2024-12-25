@@ -28,12 +28,12 @@ fun LoginScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
-    val loginState by viewModel.loginState.collectAsState()
+    val loginState = viewModel.loginState.collectAsState().value
 
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        // Background Image
+
         Image(
             painter = painterResource(id = R.drawable.bg_image),
             contentDescription = "Background Image",
@@ -41,7 +41,7 @@ fun LoginScreen(
             modifier = Modifier.fillMaxSize()
         )
 
-        // Content Overlay
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -58,7 +58,6 @@ fun LoginScreen(
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
-
             OutlinedTextField(
                 value = email,
                 onValueChange = { email = it },
@@ -70,7 +69,6 @@ fun LoginScreen(
                 shape = RoundedCornerShape(50),
                 singleLine = true
             )
-
 
             OutlinedTextField(
                 value = password,
@@ -93,17 +91,15 @@ fun LoginScreen(
                 }
             )
 
-            // Forgot Password
+
             TextButton(
                 onClick = onForgotPasswordClick,
                 modifier = Modifier.align(Alignment.End)
             ) {
                 Text("Forgot Password", color = Color(0xFF1976D2), fontSize = 12.sp)
             }
-
-            // Login Button
             Button(
-                onClick = { viewModel.login(email, password) }, // Trigger login logic
+                onClick = { viewModel.login(email, password) },
                 modifier = Modifier
                     .width(300.dp)
                     .padding(vertical = 10.dp),
@@ -113,7 +109,7 @@ fun LoginScreen(
                 Text("Login", color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.Bold)
             }
 
-            // Register Text
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -139,7 +135,6 @@ fun LoginScreen(
             }
         }
 
-
         when (loginState) {
             is LoginState.Loading -> CircularProgressIndicator(Modifier.align(Alignment.Center))
             is LoginState.Success -> {
@@ -156,7 +151,7 @@ fun LoginScreen(
                         .padding(16.dp)
                 )
             }
-            else -> {}
+            LoginState.Idle -> {}
         }
     }
 }
