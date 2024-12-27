@@ -7,14 +7,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class LoginViewModel(private val authRepository: AuthRepository) : ViewModel() {
+open class LoginViewModel(private val authRepository: AuthRepository) : ViewModel() {
 
 
     private val _loginState = MutableStateFlow<LoginState>(LoginState.Idle)
-    val loginState: StateFlow<LoginState> get() = _loginState
+    open val loginState: StateFlow<LoginState> get() = _loginState
 
 
-    fun login(email: String, password: String) {
+    open fun login(email: String, password: String) {
         if (email.isBlank() || password.isBlank()) {
             _loginState.value = LoginState.Error("Email and password cannot be empty")
             return

@@ -1,5 +1,6 @@
 package com.example.smart_cart.ui.login
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -9,14 +10,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleRegistry
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.example.smart_cart.R
+import com.example.smart_cart.data.repository.AuthRepository
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun LoginScreen(
@@ -29,6 +41,7 @@ fun LoginScreen(
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
     val loginState = viewModel.loginState.collectAsState().value
+    val context = LocalContext.current
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -139,7 +152,18 @@ fun LoginScreen(
             is LoginState.Loading -> CircularProgressIndicator(Modifier.align(Alignment.Center))
             is LoginState.Success -> {
                 val token = (loginState as LoginState.Success).token
-                onLoginSuccess(token)
+
+                // Storing token in SharedPreferences
+                val sharedPreferences = context.getSharedPreferences("auth", Context.MODE_PRIVATE)
+                val savedToken = sharedPreferences.getString("auth_token", null)
+
+                if (savedToken != token) {
+                    val editor = sharedPreferences.edit()
+                    editor.putString("auth_token", token)
+                    editor.apply()
+
+                    onLoginSuccess(token)
+                }
             }
             is LoginState.Error -> {
                 val errorMessage = (loginState as LoginState.Error).message
@@ -153,5 +177,48 @@ fun LoginScreen(
             }
             LoginState.Idle -> {}
         }
+
     }
 }
+
+
+@Composable
+@Preview(showBackground = true)
+fun PreviewLoginScreen() {
+    // Creating a mock ViewModel with mocked login state
+    val mockViewModel = object : LoginViewModel(
+        AuthRepository(firebaseAuth = FirebaseAuth.getInstance())
+    ) {
+        override val loginState: StateFlow<LoginState> = MutableStateFlow(LoginState.Idle)
+
+        override fun login(email: String, password: String) {
+            // Mock implementation for preview
+        }
+    }
+
+    // Mock functions for preview
+    val mockOnLoginSuccess: (String) -> Unit = {}
+    val mockOnRegisterClick: () -> Unit = {}
+    val mockOnForgotPasswordClick: () -> Unit = {}
+
+    // CompositionLocalProvider to handle Context and LifecycleOwner
+    CompositionLocalProvider(
+        LocalContext provides LocalContext.current // Using current LocalContext for preview
+    ) {
+        MaterialTheme {
+            LoginScreen(
+                viewModel = mockViewModel,
+                onLoginSuccess = mockOnLoginSuccess,
+                onRegisterClick = mockOnRegisterClick,
+                onForgotPasswordClick = mockOnForgotPasswordClick
+            )
+        }
+    }
+}
+
+
+
+
+
+
+

@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "508385109150",
-    "project_id": "smart-cart-96d10",
-    "storage_bucket": "smart-cart-96d10.firebasestorage.app"
+    "project_number": "88331423405",
+    "firebase_url": "https://smart-basket-d81f5-default-rtdb.firebaseio.com",
+    "project_id": "smart-basket-d81f5",
+    "storage_bucket": "smart-basket-d81f5.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:508385109150:android:5e66a89f1273575d61478f",
+        "mobilesdk_app_id": "1:88331423405:android:0816a7f598b680da634024",
         "android_client_info": {
           "package_name": "com.example.smart_cart"
         }
@@ -15,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAO6Be4UaBcZUxovkHQH2O30TFJjR7C7xM"
+          "current_key": "AIzaSyBrNp-I7xAuqQRyvmsJEvsYuhiArMqcqmo"
         }
       ],
       "services": {

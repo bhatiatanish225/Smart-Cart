@@ -29,7 +29,7 @@ class RegisterViewModel(private val authRepository: AuthRepository) : ViewModel(
             if (user != null) {
                 _registerState.value = RegisterState.Success(user)
             } else {
-                _registerState.value = RegisterState.Error("Registration failed")
+                _registerState.value = RegisterState.Error("Firebase Registration failed")
             }
         }
     }

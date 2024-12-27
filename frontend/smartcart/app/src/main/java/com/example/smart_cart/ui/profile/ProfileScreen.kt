@@ -60,7 +60,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.smart_cart.data.repository.CategoryRepository
+
 
 
 @Composable
@@ -290,39 +290,39 @@ fun CartConnectionStatus() {
 fun CategoriesSection(
     modifier: Modifier = Modifier
 ) {
-    // Initialize the repository (assuming you have a way to get it, e.g., via a singleton or DI)
-    val repository = CategoryRepository() // Use your actual repository creation logic here
-
-    // Initialize ViewModel with ViewModelFactory
-    val viewModel: CategoryViewModel = viewModel(
-        factory = CategoryViewModelFactory(repository)
-    )
-
-    // Observe categories
-    val categories by viewModel.categories.collectAsState()
-
-    Column(
-        modifier = modifier.fillMaxWidth()
-    ) {
-        Text(
-            text = "Categories",
-            color = Color.Black,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            items(categories) { category ->
-                CategoryItem(
-                    name = category.name,
-                    icon = painterResource(R.drawable.ic_launcher_foreground) // Replace with actual icon logic
-                )
-            }
-        }
-    }
+//    // Initialize the repository (assuming you have a way to get it, e.g., via a singleton or DI)
+//    val repository = CategoryRepository() // Use your actual repository creation logic here
+//
+//    // Initialize ViewModel with ViewModelFactory
+//    val viewModel: CategoryViewModel = viewModel(
+//        factory = CategoryViewModelFactory(repository)
+//    )
+//
+//    // Observe categories
+//    val categories by viewModel.categories.collectAsState()
+//
+//    Column(
+//        modifier = modifier.fillMaxWidth()
+//    ) {
+//        Text(
+//            text = "Categories",
+//            color = Color.Black,
+//            fontSize = 18.sp,
+//            fontWeight = FontWeight.Bold
+//        )
+//        Spacer(modifier = Modifier.height(8.dp))
+//        LazyRow(
+//            horizontalArrangement = Arrangement.spacedBy(8.dp),
+//            modifier = Modifier.fillMaxWidth()
+//        ) {
+//            items(categories) { category ->
+//                CategoryItem(
+//                    name = category.name,
+//                    icon = painterResource(R.drawable.ic_launcher_foreground) // Replace with actual icon logic
+//                )
+//            }
+//        }
+//    }
 }
 
 

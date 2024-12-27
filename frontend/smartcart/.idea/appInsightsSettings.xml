@@ -9,9 +9,9 @@
               <option name="connection">
                 <ConnectionSetting>
                   <option name="appId" value="com.example.smart_cart" />
-                  <option name="mobileSdkAppId" value="1:508385109150:android:5e66a89f1273575d61478f" />
-                  <option name="projectId" value="smart-cart-96d10" />
-                  <option name="projectNumber" value="508385109150" />
+                  <option name="mobileSdkAppId" value="1:88331423405:android:0816a7f598b680da634024" />
+                  <option name="projectId" value="smart-basket-d81f5" />
+                  <option name="projectNumber" value="88331423405" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

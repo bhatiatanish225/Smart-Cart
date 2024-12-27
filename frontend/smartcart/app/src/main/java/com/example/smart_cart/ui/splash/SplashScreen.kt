@@ -25,14 +25,13 @@ fun SplashScreen(navController: NavController, context: Context) {
     val token = sharedPreferences.getString("auth_token", null)
 
     LaunchedEffect(Unit) {
-
         kotlinx.coroutines.delay(2000)
         if (token.isNullOrEmpty()) {
-            navController.navigate("login") {
+            navController.navigate("home") {
                 popUpTo("splash") { inclusive = true }
             }
         } else {
-            navController.navigate("home") {
+            navController.navigate("profile") {
                 popUpTo("splash") { inclusive = true }
             }
         }

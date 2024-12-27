@@ -1,10 +1,12 @@
 package com.example.smart_cart.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.smart_cart.data.ViewModels.UserViewModel
 import com.example.smart_cart.ui.home.HomeScreen
 import com.example.smart_cart.ui.login.LoginScreen
 import com.example.smart_cart.ui.login.LoginViewModel
@@ -21,7 +23,7 @@ fun AppNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = "home"
+        startDestination = "splash"
     ) {
         // Home Screen
         composable("home") {
@@ -36,8 +38,8 @@ fun AppNavGraph(
             LoginScreen(
                 viewModel = loginViewModel,
                 onLoginSuccess = { token ->
-                    // Navigate to Splash Screen first
-                    navController.navigate("splash")
+                    // Navigate to profile Screen first
+                    navController.navigate("profile")
                 },
                 onRegisterClick = { navController.navigate("signup") },
                 onForgotPasswordClick = {
@@ -50,7 +52,8 @@ fun AppNavGraph(
         // Signup Screen
         composable("signup") {
             SignupScreen(
-                viewModel = registerViewModel,
+                userViewModel = UserViewModel(),
+                registerViewModel = registerViewModel,
                 onAlreadyHaveAccountClick = { navController.navigate("login") }
             )
         }
@@ -68,10 +71,11 @@ fun AppNavGraph(
         }
 
         // Splash Screen
+
         composable("splash") {
             SplashScreen(
                 navController = navController,
-                context = TODO()
+                context = LocalContext.current
             )
         }
 

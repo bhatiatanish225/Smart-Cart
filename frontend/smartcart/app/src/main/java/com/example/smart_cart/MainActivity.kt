@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
             val firebaseAuth = FirebaseAuth.getInstance()
             val firestore = FirebaseFirestore.getInstance()
 
-            val authRepository = AuthRepository(firebaseAuth, firestore)
+            val authRepository = AuthRepository(firebaseAuth)
 
 
             val loginViewModel = LoginViewModel(authRepository)
