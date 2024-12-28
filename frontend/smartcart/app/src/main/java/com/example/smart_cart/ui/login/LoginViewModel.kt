@@ -3,18 +3,22 @@ package com.example.smart_cart.ui.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.smart_cart.data.repository.AuthRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import kotlin.text.Typography.dagger
 
-open class LoginViewModel(private val authRepository: AuthRepository) : ViewModel() {
-
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val authRepository: AuthRepository
+) : ViewModel() {
 
     private val _loginState = MutableStateFlow<LoginState>(LoginState.Idle)
-    open val loginState: StateFlow<LoginState> get() = _loginState
+    val loginState: StateFlow<LoginState> get() = _loginState
 
-
-    open fun login(email: String, password: String) {
+    fun login(email: String, password: String) {
         if (email.isBlank() || password.isBlank()) {
             _loginState.value = LoginState.Error("Email and password cannot be empty")
             return
@@ -39,12 +43,16 @@ open class LoginViewModel(private val authRepository: AuthRepository) : ViewMode
             }
         }
     }
+
+    fun logout() {
+        authRepository.logout()
+        _loginState.value = LoginState.Idle
+    }
 }
 
-
 sealed class LoginState {
-    data object Idle : LoginState()
-    data object Loading : LoginState()
+    object Idle : LoginState()
+    object Loading : LoginState()
     data class Success(val token: String) : LoginState()
     data class Error(val message: String) : LoginState()
 }

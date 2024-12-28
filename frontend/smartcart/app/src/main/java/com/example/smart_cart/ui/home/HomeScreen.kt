@@ -32,12 +32,17 @@ fun HomeScreen(onLoginClick: () -> Unit, onRegisterClick: () -> Unit) {
                     )
                 )
             ),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.TopCenter // Content starts from the top
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
         ) {
+            Spacer(modifier = Modifier.weight(1f)) // Push content to vertical center
+
+            // App Title
             Text(
                 text = "Smart Cart App",
                 fontSize = 30.sp,
@@ -54,6 +59,7 @@ fun HomeScreen(onLoginClick: () -> Unit, onRegisterClick: () -> Unit) {
                 modifier = Modifier.padding(bottom = 40.dp)
             )
 
+            // Illustration
             Image(
                 painter = painterResource(id = R.drawable.login_image),
                 contentDescription = "Login Illustration",
@@ -97,8 +103,9 @@ fun HomeScreen(onLoginClick: () -> Unit, onRegisterClick: () -> Unit) {
                 )
             }
 
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.weight(2f)) // Push buttons up and footer down
 
+            // Footer Text
             Text(
                 text = "© 2024 Smart Cart Inc.",
                 fontSize = 12.sp,

@@ -1,6 +1,7 @@
 package com.example.smart_cart.data.api
 
 import com.example.smart_cart.data.model.Category
+import com.example.smart_cart.data.model.LoginRequest
 import com.example.smart_cart.data.model.RegistrationRequest
 import com.example.smart_cart.data.model.UserData
 import kotlinx.coroutines.flow.Flow
@@ -11,6 +12,11 @@ import retrofit2.http.POST
 
 // Retrofit API Interface
 interface ApiService {
+    @GET("user/login")
+    suspend fun loginUser(
+        @Body loginRequest: LoginRequest,
+        @Header("Authorization") authorization: String
+    ): ApiResponse<UserData>
 
     // Existing GET request for categories
     @GET("dashboard")

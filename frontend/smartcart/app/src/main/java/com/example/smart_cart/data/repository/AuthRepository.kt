@@ -1,62 +1,65 @@
 package com.example.smart_cart.data.repository
 
-
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
 class AuthRepository(
-    private val firebaseAuth: FirebaseAuth,
-//    private val firestore: FirebaseFirestore
+    private val firebaseAuth: FirebaseAuth
+    // Uncomment this if you decide to use Firestore for additional user data storage
+    // private val firestore: FirebaseFirestore
 ) {
 
-    // Register a user
+    // Register a new user with email, password, and optional name
     suspend fun register(name: String, email: String, password: String): FirebaseUser? {
         return try {
             val authResult = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
             val firebaseUser = authResult.user
+
+            // If the user is created successfully, you can save additional details in Firestore
             if (firebaseUser != null) {
-                // Save user details in Firestore
-                //val user = UserData(uid = firebaseUser.uid, name = name, email = email)
-                //firestore.collection("users").document(firebaseUser.uid).set(user).await()
+                // Uncomment if Firestore is needed for user details
+                // val user = UserData(uid = firebaseUser.uid, name = name, email = email)
+                // firestore.collection("users").document(firebaseUser.uid).set(user).await()
             }
-            firebaseAuth.currentUser
+
+            firebaseUser
         } catch (e: Exception) {
+            // Log or handle the exception (optional)
+            e.printStackTrace()
             null
         }
     }
 
-    // Login a user
+    // Login an existing user with email and password
     suspend fun login(email: String, password: String): FirebaseUser? {
         return try {
-            firebaseAuth.signInWithEmailAndPassword(email, password).await()
-            firebaseAuth.currentUser
+            val authResult = firebaseAuth.signInWithEmailAndPassword(email, password).await()
+            authResult.user
         } catch (e: Exception) {
+            // Log or handle the exception (optional)
+            e.printStackTrace()
             null
         }
     }
 
-    // Get user data from Firestore
-//    suspend fun getUser(uid: String): UserData? {
-//        return try {
-//            val document = firestore.collection("users").document(uid).get().await()
-//            document.toObject(UserData::class.java)
-//        } catch (e: Exception) {
-//            null
-//        }
-//    }
+    // Retrieve the currently logged-in user
+    fun getCurrentUser(): FirebaseUser? {
+        return firebaseAuth.currentUser
+    }
 
-    // Get ID Token
+    // Retrieve the ID token for the currently logged-in user
     suspend fun getIdToken(): String? {
         return try {
             firebaseAuth.currentUser?.getIdToken(true)?.await()?.token
         } catch (e: Exception) {
+            // Log or handle the exception (optional)
+            e.printStackTrace()
             null
         }
     }
 
-    // Logout
+    // Logout the currently logged-in user
     fun logout() {
         firebaseAuth.signOut()
     }
